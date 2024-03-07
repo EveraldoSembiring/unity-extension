@@ -38,9 +38,11 @@ namespace UnityExtension
             return this;
         }
 
-        public HttpRequestBuilder WithQuery(string key, string value)
+        public HttpRequestBuilder WithQuery(string key, string value, bool checkEscapeKey = true, bool checkEscapeValue = true)
         {
-            Queries.Add(new KeyValuePair<string, string>(key, value));
+            string queryKey = checkEscapeKey ? "?" + Uri.EscapeDataString(key) : key;
+            string queryValue = checkEscapeValue ? "?" + Uri.EscapeDataString(value) : value;
+            Queries.Add(new KeyValuePair<string, string>(queryKey, queryValue));
             return this;
         }
 
@@ -114,7 +116,7 @@ namespace UnityExtension
                         constructedRequest.Uri += "&";
                     }
 
-                    constructedRequest.Uri += $"{Uri.EscapeDataString(Queries[i].Key)}={Uri.EscapeDataString(Queries[i].Value)}";
+                    constructedRequest.Uri += $"{Queries[i].Key}={Queries[i].Value}";
                 }
             }
             return constructedRequest;
