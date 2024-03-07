@@ -1,0 +1,18 @@
+{
+  "name": "com.everaldo.extension",
+  "displayName": "Unity Extension",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "description": "Everaldo common scripts for public",
+  "keywords": [],
+  "author": {
+    "name": "Everaldo"
+  },
+  "hideInEditor": false,
+  "category": "unity extensions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EveraldoSembiring/unity-extension"
+  },
+  "type": "library"
+}
