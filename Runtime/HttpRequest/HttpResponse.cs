@@ -25,6 +25,19 @@ namespace UnityExtension
             return retval;
         }
 
+        public void LogHttpResponseContent()
+        {
+            string content = $"Http Response.\n{Uri}\nReturn Code: {RetCode}";
+            if (Headers != null)
+            {
+                foreach (var headerPair in Headers)
+                {
+                    content += $"\n{headerPair.Key} : {headerPair.Value}";
+                }
+            }
+            GameLogger.Verbose(content);
+        }
+
         internal T Parse<T>() where T : class
         {
             T retval = null;

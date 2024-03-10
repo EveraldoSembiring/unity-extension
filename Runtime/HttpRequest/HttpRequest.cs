@@ -21,16 +21,17 @@ namespace UnityExtension
         /// </summary>
         /// <param name="timeoutMs">Request timeout</param>
         /// <param name="callback">Return T object</param>
-        public async void Send<T>(int timeoutMs, Action<T> callback) where T : class
+        public async void Send<T>(int timeoutMs, Action<HttpResult<T>> callback) where T : class
         {
             Task<HttpResponse> responseTask = Send(timeoutMs);
             await responseTask;
             HttpResponse response = responseTask.Result;
 
-            T result = null;
+            HttpResult<T> result = null;
             if(response != null)
             {
-                result = response.Parse<T>();
+                T parsedBody = response.Parse<T>();
+                result = new HttpResult<T>(response.RetCode, parsedBody);
             }
             callback?.Invoke(result);
         }
@@ -58,12 +59,19 @@ namespace UnityExtension
         private async Task<HttpResponse> Send(int timeOutMs)
         {
             HttpResponse response = null;
+            LogHttpRequestContent();
             using (UnityWebRequest task = CreateUnityWebRequest())
             {
                 task.timeout = timeOutMs / 1000;
                 await task.SendWebRequest();
                 response = HttpResponse.CreateResponse(task);
             }
+
+            if(response != null)
+            {
+                response.LogHttpResponseContent();
+            }
+
             return response;
         }
 
@@ -86,6 +94,19 @@ namespace UnityExtension
             unityWebRequest.disposeDownloadHandlerOnDispose = true;
 
             return unityWebRequest;
+        }
+
+        public void LogHttpRequestContent()
+        {
+            string content = $"Http Request.\n{Method} {Uri}";
+            if (Headers != null)
+            {
+                foreach (var headerPair in Headers)
+                {
+                    content += $"\n{headerPair.Key} : {headerPair.Value}";
+                }
+            }
+            GameLogger.Verbose(content);
         }
         #endregion
     }
