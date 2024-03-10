@@ -19,7 +19,7 @@ namespace UnityExtension
             }
             set
             {
-                value = Value;
+                this.value = value;
                 OnValueChanged?.Invoke(value);
             }
         }

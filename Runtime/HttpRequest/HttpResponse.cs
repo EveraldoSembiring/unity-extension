@@ -46,6 +46,7 @@ namespace UnityExtension
                 if (Body != null && Body.Length > 0)
                 {
                     string bodyJson = System.Text.Encoding.UTF8.GetString(Body);
+                    GameLogger.Verbose(bodyJson);
                     retval = JsonUtility.FromJson<T>(bodyJson);
                 }
             }
