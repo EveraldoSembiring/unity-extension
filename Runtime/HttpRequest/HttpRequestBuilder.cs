@@ -46,12 +46,16 @@ namespace UnityExtension
         }
 
         public HttpRequestBuilder WithJsonContent<T>(T content,
-            string mediaType = "application/json")
+            string mediaType = "application/json", bool logJsonParseResult = false)
         {
             byte[] bodyBytes = null;
             try
             {
                 string json = JsonUtility.ToJson(content);
+                if(logJsonParseResult)
+                {
+                    GameLogger.Verbose(json);
+                }
                 bodyBytes = Encoding.UTF8.GetBytes(json);
             }
             catch (Exception)
