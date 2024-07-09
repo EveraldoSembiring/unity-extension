@@ -51,7 +51,7 @@ namespace UnityExtension
             byte[] bodyBytes = null;
             try
             {
-                string json = JsonUtility.ToJson(content);
+                string json = content.ToJsonString();
                 if(logJsonParseResult)
                 {
                     GameLogger.Verbose(json);
