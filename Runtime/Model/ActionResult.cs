@@ -35,31 +35,33 @@ namespace UnityExtension
 
         public void OnSuccess(Action<T> callback)
         {
-            onSuccessDelegates += callback;
             if (isSuccess)
             {
-                onSuccessDelegates?.Invoke(result);
-                onCompleteDelegates?.Invoke();
+                callback?.Invoke(result);
+                return;
             }
+
+            onSuccessDelegates += callback;
         }
         
         public void OnFailed(Action<string> callback)
         {
-            onFailedDelegates += callback;
             if (isFailed)
             {
-                onFailedDelegates?.Invoke(errorMessage);
-                onCompleteDelegates?.Invoke();
+                callback?.Invoke(errorMessage);
+                return;
             }
+            onFailedDelegates += callback;
         }
         
         public void OnComplete(Action callback)
         {
-            onCompleteDelegates += callback;
-            if (isFailed)
+            if (isFailed || isSuccess)
             {
                 onCompleteDelegates?.Invoke();
+                return;
             }
+            onCompleteDelegates += callback;
         }
     }
 
