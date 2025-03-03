@@ -1,6 +1,4 @@
-﻿using PlasticPipe.PlasticProtocol.Messages;
-
-namespace UnityExtension
+﻿namespace UnityExtension
 {
     public struct ExtendedVector2<T,V>
     {
