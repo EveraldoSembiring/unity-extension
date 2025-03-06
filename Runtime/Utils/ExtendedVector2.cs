@@ -1,5 +1,6 @@
 ﻿namespace UnityExtension
 {
+    [System.Serializable]
     public struct ExtendedVector2<T,V>
     {
         public T X;
