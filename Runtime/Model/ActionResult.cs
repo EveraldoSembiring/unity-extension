@@ -58,7 +58,7 @@ namespace UnityExtension
         {
             if (isFailed || isSuccess)
             {
-                onCompleteDelegates?.Invoke();
+                callback?.Invoke();
                 return;
             }
             onCompleteDelegates += callback;
